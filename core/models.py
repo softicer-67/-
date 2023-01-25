@@ -8,9 +8,9 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True, blank=True)
-    password = models.CharField(max_length=100)
+#     password = models.CharField(max_length=100)
 
-    def save(self, *args, **kwargs):
-        self.password = make_password(self.password)
-        super(User, self).save(*args, **kwargs)
+#     def save(self, *args, **kwargs):
+#         self.password = make_password(self.password)
+#         super(User, self).save(*args, **kwargs)
 
