@@ -31,8 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
-    # 'django_environ',
+
+    'rest_framework',
+    'django_filters',
+    'social_django',
+    'core.apps.CoreConfig',
+    'goals.apps.GoalsConfig',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +104,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.vk.VKOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -115,13 +128,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
-
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -129,3 +136,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_URL_NAMESPACE = "social"
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_KEY")
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET")
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ["email", "photos", "notify"]
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/logged-in/"
+SOCIAL_AUTH_LOGIN_ERROR_URL = "/login-error/"
+
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
